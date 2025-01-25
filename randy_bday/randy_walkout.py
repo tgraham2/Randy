@@ -7,17 +7,24 @@ from puppy_control.msg import Velocity, Pose, Gait
 
 ROS_NODE_NAME = 'puppy_salutation_demo'
 
-# Movement parameters
-PuppyMoveForward = {'x': 10, 'y': 0, 'yaw_rate': 0}  # Slower speed for better control
-PuppyTurnLeft = {'x': 0, 'y': 0, 'yaw_rate': math.radians(90) / 3}  # Slower turn (90° over 3 seconds)
+# Define walking parameters
+PuppyMoveForward = {'x': 5, 'y': 0, 'yaw_rate': 0}  # Smaller step forward, 5 cm/s
+PuppyTurnLeft = {'x': 0, 'y': 0, 'yaw_rate': math.radians(45) / 2}  # Slower turn, 45° over 2 seconds
+PuppyTurnRight = {'x': 0, 'y': 0, 'yaw_rate': -math.radians(45) / 2}
+
+# Adjusted gait configuration for smaller steps
+GaitConfig = {
+    'overlap_time': 0.5,  # More overlap time for stability
+    'swing_time': 0.6,    # Slower swing for controlled movement
+    'clearance_time': 0.1,
+    'z_clearance': 3      # Smaller foot lift for stability
+}
 PuppyTurnRight = {'x': 0, 'y': 0, 'yaw_rate': -math.radians(90) / 3}
 
 # Pose configurations
 PuppyBowPose = {'roll': 0, 'pitch': math.radians(-10), 'yaw': 0, 'height': -14, 'x_shift': 0.5, 'stance_x': 0, 'stance_y': 0}
 PuppyNeutralPose = {'roll': 0, 'pitch': 0, 'yaw': 0, 'height': -12, 'x_shift': 0.5, 'stance_x': 0, 'stance_y': 0}
 
-# Gait configuration
-GaitConfig = {'overlap_time': 0.4, 'swing_time': 0.5, 'clearance_time': 0.1, 'z_clearance': 4}
 
 def cleanup():
     PuppyVelocityPub.publish(x=0, y=0, yaw_rate=0)
